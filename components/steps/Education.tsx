@@ -123,7 +123,7 @@ export default function Education() {
         dispatch(updateEducation(formatted))
         dispatch(setCurrentSection('certifications'))
     }
-    const onBack = () => dispatch(setCurrentStep(3))
+
     const boldGrayFocus = "focus:border-gray-500 focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 focus:shadow-sm"
 
     return (

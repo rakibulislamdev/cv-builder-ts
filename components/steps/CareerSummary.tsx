@@ -1,6 +1,5 @@
 "use client"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -9,11 +8,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { updateCareerSummary, setCurrentStep, updateJobTitle } from "@/lib/cvSlice"
 import NextButton from "../NextButton"
 import type { RootState, AppDispatch } from "@/lib/store"
+import { FormValues } from "@/lib/types/types"
 
-type FormValues = {
-    jobTitle: string
-    summary: string
-}
+
 
 export default function CareerSummary() {
     const dispatch = useDispatch<AppDispatch>()
@@ -30,7 +27,7 @@ export default function CareerSummary() {
         dispatch(setCurrentStep(3))
     }
 
-    const onBack = () => dispatch(setCurrentStep(1))
+
 
     return (
         <div className="min-h-screen bg-white flex items-center justify-center p-4">
