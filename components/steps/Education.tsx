@@ -13,22 +13,8 @@ import { Plus, X, Upload, FileText, CalendarIcon, ChevronRight } from "lucide-re
 import { cn } from "@/lib/utils"
 import { setCurrentStep, setCurrentSection, updateEducation } from "@/lib/cvSlice"
 import NextButton from "../NextButton"
+import { AchievementFile, EducationItem } from "@/lib/types/types"
 
-interface AchievementFile {
-    file: File
-    preview: string
-    name: string
-    size: string
-}
-
-interface EducationItem {
-    degree: string
-    institution: string
-    major: string
-    startDate: Date | null
-    endDate: Date | null
-    achievements: string[]
-}
 
 export default function Education() {
     const dispatch = useDispatch()

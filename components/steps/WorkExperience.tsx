@@ -18,23 +18,10 @@ import {
 } from "@/components/ui/popover"
 import NextButton from "../NextButton"
 import { RootState } from "@/lib/store"
+import { Experience, UploadedFile, WorkExperienceItem } from "@/lib/types/types"
 
-interface Experience {
-    jobTitle: string
-    company: string
-    startDate: Date | null
-    endDate: Date | null
-    description: string
-    skills: string[]
-    achievements: string[]
-}
 
-interface UploadedFile {
-    file: File
-    preview: string
-    name: string
-    size: string
-}
+
 
 export default function WorkExperience() {
     const dispatch = useDispatch()
@@ -51,15 +38,20 @@ export default function WorkExperience() {
         }
     }
 
+    const mapWorkExperience = (data: WorkExperienceItem[]): Experience[] =>
+        data.map(exp => ({
+            jobTitle: exp.position ?? "",
+            company: exp.company ?? "",
+            startDate: parseDateSafe(exp.startDate),
+            endDate: parseDateSafe(exp.endDate),
+            description: exp.responsibilities ?? "",
+            skills: exp.skills ?? [],
+            achievements: exp.achievements ?? []
+        }))
+
     const [experiences, setExperiences] = useState<Experience[]>(
         workExperience.length > 0
-            ? workExperience.map(exp => ({
-                ...exp,
-                startDate: parseDateSafe(exp.startDate),
-                endDate: parseDateSafe(exp.endDate),
-                skills: exp.skills || [],
-                achievements: exp.achievements || []
-            }))
+            ? mapWorkExperience(workExperience)
             : [
                 {
                     jobTitle: "",
@@ -103,7 +95,6 @@ export default function WorkExperience() {
 
     const addSkill = (expIndex: number, skillText: string) => {
         if (!skillText.trim()) return
-
         const updatedExperiences = experiences.map((exp, i) => {
             if (i === expIndex) {
                 if (exp.skills.length >= 5) return exp
@@ -175,12 +166,14 @@ export default function WorkExperience() {
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        const formattedExperiences = experiences.map(exp => ({
-            ...exp,
+        const formattedExperiences: WorkExperienceItem[] = experiences.map(exp => ({
+            company: exp.company,
+            position: exp.jobTitle,
             startDate: exp.startDate && isValid(exp.startDate) ? format(exp.startDate, 'dd/MM/yyyy') : '',
             endDate: exp.endDate && isValid(exp.endDate) ? format(exp.endDate, 'dd/MM/yyyy') : '',
-            skills: exp.skills || [],
-            achievements: exp.achievements || []
+            responsibilities: exp.description,
+            skills: exp.skills,
+            achievements: exp.achievements
         }))
         dispatch(updateWorkExperience(formattedExperiences))
         const allSkills = experiences.flatMap(exp => exp.skills || [])
@@ -189,20 +182,10 @@ export default function WorkExperience() {
     }
 
     const onSkip = () => {
-        const formattedExperiences = experiences.map(exp => ({
-            ...exp,
-            startDate: exp.startDate && isValid(exp.startDate) ? format(exp.startDate, 'dd/MM/yyyy') : '',
-            endDate: exp.endDate && isValid(exp.endDate) ? format(exp.endDate, 'dd/MM/yyyy') : '',
-            skills: exp.skills || [],
-            achievements: exp.achievements || []
-        }))
-        dispatch(updateWorkExperience(formattedExperiences))
-        const allSkills = experiences.flatMap(exp => exp.skills || [])
-        dispatch(updateSkills([...new Set(allSkills)]))
-        dispatch(setCurrentStep(4))
+        onSubmit(new Event('submit') as unknown as React.FormEvent)
     }
 
-    const onBack = () => dispatch(setCurrentStep(2))
+
     const boldGrayFocus = "focus:border-gray-500 focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 focus:shadow-sm"
 
     return (
@@ -232,19 +215,19 @@ export default function WorkExperience() {
                                     </Button>
                                 )}
 
-                                {/* Job Title */}
+
                                 <div className="space-y-2">
                                     <Label htmlFor={`jobTitle-${index}`} className="text-sm font-medium text-gray-700">Job Title</Label>
                                     <Input id={`jobTitle-${index}`} placeholder="Mid-Level UI/UX Designer" value={exp.jobTitle || ""} onChange={(e) => updateExperience(index, "jobTitle", e.target.value)} className={cn("w-full border-gray-300", boldGrayFocus)} />
                                 </div>
 
-                                {/* Company */}
+
                                 <div className="space-y-2">
                                     <Label htmlFor={`company-${index}`} className="text-sm font-medium text-gray-700">Company Name</Label>
-                                    <Input id={`company-${index}`} placeholder="SM Technology (betopia Group)" value={exp.company || ""} onChange={(e) => updateExperience(index, "company", e.target.value)} className={cn("w-full border-gray-300", boldGrayFocus)} />
+                                    <Input id={`company-${index}`} placeholder="SM Technology" value={exp.company || ""} onChange={(e) => updateExperience(index, "company", e.target.value)} className={cn("w-full border-gray-300", boldGrayFocus)} />
                                 </div>
 
-                                {/* Duration */}
+
                                 <div className="space-y-2">
                                     <Label className="text-sm font-medium text-gray-700">Duration</Label>
                                     <div className="grid grid-cols-2 gap-4">
@@ -277,15 +260,15 @@ export default function WorkExperience() {
                                     </div>
                                 </div>
 
-                                {/* Job Description */}
+
                                 <div className="space-y-2">
                                     <Label htmlFor={`description-${index}`} className="text-sm font-medium text-gray-700">Job Description/Responsibilities</Label>
-                                    <Textarea id={`description-${index}`} placeholder="..." value={exp.description || ""} onChange={(e) => updateExperience(index, "description", e.target.value)} className={cn("w-full min-h-[100px] border-gray-300 resize-none", boldGrayFocus)} />
+                                    <Textarea id={`description-${index}`} placeholder="Enter  Your Job Description/Responsibilities" value={exp.description || ""} onChange={(e) => updateExperience(index, "description", e.target.value)} className={cn("w-full min-h-[100px] border-gray-300 resize-none", boldGrayFocus)} />
                                 </div>
 
-                                {/* Achievements & Skills */}
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {/* Achievements */}
+
                                     <div className="space-y-3">
                                         <Label className="text-sm font-medium text-gray-700">Achievements</Label>
                                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors cursor-pointer bg-white" onClick={handleBrowseClick}>
@@ -315,7 +298,7 @@ export default function WorkExperience() {
                                         )}
                                     </div>
 
-                                    {/* Skills */}
+
                                     <div className="space-y-3">
                                         <Label className="text-sm font-medium text-gray-700">Skills</Label>
                                         <div className={cn("flex flex-wrap items-center w-full min-h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm transition-colors",

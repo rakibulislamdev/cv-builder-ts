@@ -16,11 +16,7 @@ import {
 } from "@/components/ui/select"
 import NextButton from "../NextButton"
 import type { RootState, AppDispatch } from "@/lib/store"
-
-type OtherSocial = {
-    platform: string
-    url: string
-}
+import { OtherSocial } from "@/lib/types/types"
 
 type FormValues = {
     linkedin?: string
