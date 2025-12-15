@@ -64,3 +64,81 @@ export interface WorkExperienceItem {
     skills?: string[]
     achievements?: string[]
 }
+
+export interface Certification {
+    title: string
+    organization: string
+    issueDate: Date | null
+    expiryDate: Date | null
+}
+
+
+
+
+export interface PersonalInfo {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  country: string;
+  city: string;
+  address: string;
+  state: string;
+  zipCode: string;
+  portfolio: string;
+  linkedin: string;
+}
+
+export interface EducationItem {
+  institution: string;
+  degree: string;
+  startYear: string;
+  endYear: string;
+  description?: string;
+}
+
+export interface WorkExperienceItem {
+  company: string;
+  position: string;
+  startDate: string;
+  endDate: string;
+  responsibilities?: string;
+}
+
+export interface CertificationItem {
+  name: string;
+  issuer: string;
+  year: string;
+}
+
+export interface ContactInfo {
+  email?: string;
+  phone?: string;
+  address?: string;
+}
+
+export interface AIEnhancedData {
+  personalInfo?: Partial<PersonalInfo>;
+  jobTitle?: string;
+  careerSummary?: string;
+  skills?: string[];
+  workExperience?: WorkExperienceItem[];
+  education?: EducationItem[];
+  certifications?: CertificationItem[];
+}
+
+
+export interface CVState {
+  currentStep: number;
+  currentSection: string;
+  personalInfo: PersonalInfo;
+  education: EducationItem[];
+  workExperience: WorkExperienceItem[];
+  skills: string[];
+  certifications: CertificationItem[];
+  contactInfo: ContactInfo;
+  careerSummary: string;
+  jobTitle: string;
+  generatedResume: string;
+  isAIEnhanced: boolean;
+}

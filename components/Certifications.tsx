@@ -13,13 +13,9 @@ import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { RootState } from "@/lib/store"
+import { Certification } from "@/lib/types/types"
 
-interface Certification {
-    title: string
-    organization: string
-    issueDate: Date | null
-    expiryDate: Date | null
-}
+
 
 export default function Certifications() {
     const dispatch = useDispatch()

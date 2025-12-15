@@ -22,7 +22,6 @@ import { Experience, UploadedFile, WorkExperienceItem } from "@/lib/types/types"
 
 
 
-
 export default function WorkExperience() {
     const dispatch = useDispatch()
     const workExperience = useSelector((state: RootState) => state.cv.workExperience)

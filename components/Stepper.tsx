@@ -25,7 +25,7 @@ export default function Stepper() {
         <div className="w-full px-4 py-6 sm:px-6 sm:py-10 bg-white">
             <div className="relative max-w-7xl mx-auto">
 
-                {/* DESKTOP VERSION */}
+
                 <div className="hidden lg:block relative">
                     <div className="flex justify-between relative z-10">
                         {steps.map((step, index) => {
@@ -109,7 +109,7 @@ export default function Stepper() {
                     </div>
                 </div>
 
-                {/* MOBILE VERSION */}
+
                 <div className="lg:hidden">
                     <div
                         className="absolute left-6 top-0 bottom-0 w-1 bg-gray-300"
