@@ -62,9 +62,9 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                 fontFamily: "Arial, Helvetica, sans-serif",
             }}
         >
-            {/* Header Section */}
+
             <div className="flex items-start gap-6 mb-6">
-                {/* Profile Image */}
+
                 <div className="flex-shrink-0">
                     <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300 bg-gray-100">
                         {personalInfo.profileImage ? (
@@ -75,7 +75,7 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                     </div>
                 </div>
 
-                {/* Name and Contact */}
+
                 <div className="flex-1">
                     <h1 className="text-3xl font-bold text-gray-900 mb-1 uppercase">
                         {displayData.firstName} {displayData.lastName}
@@ -105,14 +105,12 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                 </div>
             </div>
 
-            {/* Divider */}
+
             <div className="h-0.5 bg-gray-300 mb-6"></div>
 
-            {/* Two Column Layout */}
+
             <div className="flex gap-6">
-                {/* Left Column - 30% */}
                 <div className="w-[30%] space-y-5">
-                    {/* Portfolio */}
                     <div>
                         <SectionHeading>PORTFOLIO</SectionHeading>
                         <div className="space-y-1 text-xs text-gray-700">
@@ -131,11 +129,11 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                         </div>
                     </div>
 
-                    {/* Skills */}
+
                     <div>
                         <SectionHeading>SKILLS</SectionHeading>
                         <ul className="space-y-1 text-xs text-gray-700">
-                            {displaySkills.map((skill, index) => (
+                            {displaySkills.map((skill: string, index: number) => (
                                 <li key={index} className="flex items-start gap-1">
                                     <span className="text-green-600 font-bold">•</span>
                                     <span>{skill}</span>
@@ -144,7 +142,7 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                         </ul>
                     </div>
 
-                    {/* Languages */}
+
                     <div>
                         <SectionHeading>LANGUAGES</SectionHeading>
                         <ul className="space-y-1 text-xs text-gray-700">
@@ -159,7 +157,7 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                         </ul>
                     </div>
 
-                    {/* Activities */}
+
                     <div>
                         <SectionHeading>CO-CURRICULAR ACTIVITIES</SectionHeading>
                         <ul className="space-y-1 text-xs text-gray-700">
@@ -171,20 +169,19 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                     </div>
                 </div>
 
-                {/* Right Column - 70% */}
+
                 <div className="w-[70%] space-y-5">
-                    {/* About Me */}
+
                     <div>
                         <SectionHeading>ABOUT ME</SectionHeading>
                         <p className="text-xs text-gray-700 leading-relaxed">{displayData.careerSummary}</p>
                     </div>
 
-                    {/* Education */}
                     {displayEducation.length > 0 && (
                         <div>
                             <SectionHeading>EDUCATION QUALIFICATION</SectionHeading>
                             <div className="space-y-3">
-                                {displayEducation.map((edu, index) => (
+                                {displayEducation.map((edu: any, index: number) => (
                                     <div key={index}>
                                         <div className="flex justify-between items-start mb-0.5">
                                             <p className="font-bold text-xs text-gray-900">{edu.degree || "Degree Name"}</p>
@@ -200,12 +197,12 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                         </div>
                     )}
 
-                    {/* Certification */}
+
                     {displayCertifications.length > 0 && (
                         <div>
                             <SectionHeading>TRAINING / CERTIFICATION</SectionHeading>
                             <div className="space-y-3">
-                                {displayCertifications.map((cert, index) => (
+                                {displayCertifications.map((cert: any, index: number) => (
                                     <div key={index}>
                                         <div className="flex justify-between items-start mb-0.5">
                                             <p className="font-bold text-xs text-gray-900">{cert.title || cert.name || "Certification Name"}</p>
@@ -221,12 +218,12 @@ const ResumePreview = ({ resumeRef, cvData }: ResumePreviewProps) => {
                         </div>
                     )}
 
-                    {/* Work Experience */}
+
                     {displayWorkExperience.length > 0 && (
                         <div>
                             <SectionHeading>WORK EXPERIENCE</SectionHeading>
                             <div className="space-y-3">
-                                {displayWorkExperience.map((exp, index) => (
+                                {displayWorkExperience.map((exp: any, index: number) => (
                                     <div key={index}>
                                         <div className="flex justify-between items-start mb-0.5">
                                             <p className="font-bold text-xs text-gray-900">{exp.jobTitle || "Job Title"}</p>
@@ -291,7 +288,6 @@ export default function Review() {
 
     return (
         <div className="min-h-screen bg-gray-50 pb-24">
-            {/* Header */}
             <div className="bg-white border-b border-gray-200 py-6 mb-8">
                 <div className="max-w-5xl mx-auto px-6">
                     <h1 className="text-2xl font-bold text-gray-900">Review Your AI-Generated Resume</h1>

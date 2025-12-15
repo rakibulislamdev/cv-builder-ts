@@ -28,8 +28,13 @@ export default function ContactInfo() {
     const contactInfo = useSelector((state: RootState) => state.cv.contactInfo)
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
-        defaultValues: contactInfo
+        defaultValues: {
+            linkedin: contactInfo.linkedin || "",
+            portfolio: contactInfo.portfolio || "",
+            otherSocial: contactInfo.otherSocial || { platform: "", url: "" }
+        }
     })
+
 
     const [otherSocial, setOtherSocial] = useState<OtherSocial>(
         contactInfo.otherSocial || { platform: "", url: "" }

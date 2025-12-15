@@ -239,7 +239,7 @@ export default function WorkExperience() {
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-auto p-0" align="start">
-                                                    <Calendar mode="single" selected={exp.startDate} onSelect={(date) => updateExperience(index, "startDate", date)} initialFocus />
+                                                    <Calendar mode="single" selected={exp.startDate ?? undefined} onSelect={(date) => updateExperience(index, "startDate", date)} initialFocus />
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
@@ -252,7 +252,7 @@ export default function WorkExperience() {
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-auto p-0" align="start">
-                                                    <Calendar mode="single" selected={exp.endDate} onSelect={(date) => updateExperience(index, "endDate", date)} initialFocus />
+                                                    <Calendar mode="single" selected={exp.endDate ?? undefined} onSelect={(date) => updateExperience(index, "endDate", date)} initialFocus />
                                                 </PopoverContent>
                                             </Popover>
                                         </div>

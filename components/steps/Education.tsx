@@ -42,16 +42,24 @@ export default function Education() {
         ...edu,
         startDate: isValidDate(parseDateString(edu.startDate as any)) ? parseDateString(edu.startDate as any) : null,
         endDate: isValidDate(parseDateString(edu.endDate as any)) ? parseDateString(edu.endDate as any) : null,
-        achievements: edu.achievements || []
+        achievements: edu.achievements || [],
+        startYear: edu.startYear || '',
+        endYear: edu.endYear || '',
     })) : [
-        { degree: "", institution: "", major: "", startDate: null, endDate: null, achievements: [] }
+        {
+            degree: "", institution: "", major: "", startDate: null, endDate: null, achievements: [], startYear: '',
+            endYear: ''
+        }
     ]
 
     const [educations, setEducations] = useState<EducationItem[]>(initialEducationState)
     const [uploadedFiles, setUploadedFiles] = useState<AchievementFile[]>([])
 
     const addEducation = () => {
-        setEducations([...educations, { degree: "", institution: "", major: "", startDate: null, endDate: null, achievements: [] }])
+        setEducations([...educations, {
+            degree: "", institution: "", major: "", startDate: null, endDate: null, achievements: [], startYear: '',
+            endYear: ''
+        }])
     }
 
     const removeEducation = (index: number) => {
@@ -88,34 +96,36 @@ export default function Education() {
     const handleButtonClick = (e: React.MouseEvent) => { e.stopPropagation(); handleBrowseClick() }
 
     const saveAndAdvance = (step: number) => {
-        const formatted = educations.map(edu => ({
+        const formatted: EducationItem[] = educations.map(edu => ({
             ...edu,
-            startDate: edu.startDate && isValidDate(edu.startDate) ? format(edu.startDate, 'dd/MM/yyyy') : '',
-            endDate: edu.endDate && isValidDate(edu.endDate) ? format(edu.endDate, 'dd/MM/yyyy') : '',
-            achievements: edu.achievements || []
+            achievements: edu.achievements || [],
+            startDate: edu.startDate && isValidDate(edu.startDate) ? edu.startDate : null,
+            endDate: edu.endDate && isValidDate(edu.endDate) ? edu.endDate : null,
         }))
         dispatch(updateEducation(formatted))
         dispatch(setCurrentStep(step))
     }
 
+
     const onSubmit = (e: React.FormEvent) => { e.preventDefault(); saveAndAdvance(5) }
     const handleCertificationsClick = () => {
-        const formatted = educations.map(edu => ({
+        const formatted: EducationItem[] = educations.map(edu => ({
             ...edu,
-            startDate: edu.startDate && isValidDate(edu.startDate) ? format(edu.startDate, 'dd/MM/yyyy') : '',
-            endDate: edu.endDate && isValidDate(edu.endDate) ? format(edu.endDate, 'dd/MM/yyyy') : '',
-            achievements: edu.achievements || []
+            achievements: edu.achievements || [],
+            startDate: edu.startDate && isValidDate(edu.startDate) ? edu.startDate : null,
+            endDate: edu.endDate && isValidDate(edu.endDate) ? edu.endDate : null,
         }))
         dispatch(updateEducation(formatted))
         dispatch(setCurrentSection('certifications'))
     }
+
 
     const boldGrayFocus = "focus:border-gray-500 focus:ring-2 focus:ring-gray-900 focus:ring-offset-0 focus:shadow-sm"
 
     return (
         <div className="min-h-screen bg-white flex items-center justify-center p-4">
             <Card className="w-full max-w-5xl border-0 shadow-none">
-                {/* Header */}
+
                 <CardHeader className="pb-4">
                     <div className="flex justify-between items-start">
                         <div>
@@ -140,13 +150,13 @@ export default function Education() {
                                     </Button>
                                 )}
 
-                                {/* Degree */}
+
                                 <div className="space-y-2">
                                     <Label htmlFor={`degree-${index}`} className="text-sm font-medium text-gray-700">Your Degree</Label>
                                     <Input id={`degree-${index}`} placeholder="e.g., Bachelors, Masters" value={edu.degree} onChange={(e) => updateEducationItem(index, 'degree', e.target.value)} className={cn("w-full border-gray-300", boldGrayFocus)} />
                                 </div>
 
-                                {/* Institution & Major */}
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-2">
                                         <Label htmlFor={`institution-${index}`} className="text-sm font-medium text-gray-700">Institution Name</Label>
@@ -158,7 +168,7 @@ export default function Education() {
                                     </div>
                                 </div>
 
-                                {/* Dates */}
+
                                 <div className="space-y-2">
                                     <Label className="text-sm font-medium text-gray-700">Graduation</Label>
                                     <div className="grid grid-cols-2 gap-4">
@@ -170,7 +180,7 @@ export default function Education() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0" align="start">
-                                                <Calendar mode="single" selected={edu.startDate} onSelect={(date) => updateEducationItem(index, "startDate", date)} initialFocus />
+                                                <Calendar mode="single" selected={edu.startDate ?? undefined} onSelect={(date) => updateEducationItem(index, "startDate", date)} initialFocus />
                                             </PopoverContent>
                                         </Popover>
                                         <Popover>
@@ -181,13 +191,13 @@ export default function Education() {
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0" align="start">
-                                                <Calendar mode="single" selected={edu.endDate} onSelect={(date) => updateEducationItem(index, "endDate", date)} initialFocus />
+                                                <Calendar mode="single" selected={edu.endDate ?? undefined} onSelect={(date) => updateEducationItem(index, "endDate", date)} initialFocus />
                                             </PopoverContent>
                                         </Popover>
                                     </div>
                                 </div>
 
-                                {/* Achievements */}
+
                                 {index === 0 && (
                                     <div className="grid grid-cols-1 gap-6 w-full md:w-1/2">
                                         <Label className="text-sm font-medium text-gray-700">Achievements</Label>

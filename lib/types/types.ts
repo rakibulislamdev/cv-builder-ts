@@ -112,9 +112,12 @@ export interface CertificationItem {
 }
 
 export interface ContactInfo {
-  email?: string;
+ email?: string;
   phone?: string;
   address?: string;
+  linkedin?: string;
+  portfolio?: string;
+  otherSocial?: OtherSocial | null
 }
 
 export interface AIEnhancedData {

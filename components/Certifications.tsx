@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useDispatch, useSelector } from "react-redux"
 import { updateCertifications, setCurrentStep, setCurrentSection } from "@/lib/cvSlice"
-import { Plus, X, CalendarIcon, ChevronRight } from "lucide-react"
+import { Plus, X, CalendarIcon } from "lucide-react"
 import { useState } from "react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
@@ -14,6 +14,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { RootState } from "@/lib/store"
 import { Certification } from "@/lib/types/types"
+import NextButton from "./NextButton"
 
 
 
@@ -40,11 +41,13 @@ export default function Certifications() {
     const initialCertifications: Certification[] =
         certificationsData.length > 0
             ? certificationsData.map((cert: any) => ({
-                ...cert,
-                issueDate: parseDateString(cert.issueDate),
-                expiryDate: parseDateString(cert.expiryDate),
+                title: cert.name || "",
+                organization: cert.issuer || "",
+                issueDate: cert.year ? new Date(Number(cert.year), 0, 1) : null,
+                expiryDate: null,
             }))
             : [{ title: "", organization: "", issueDate: null, expiryDate: null }]
+
 
     const [certifications, setCertifications] = useState<Certification[]>(initialCertifications)
 
@@ -73,21 +76,15 @@ export default function Certifications() {
     }
 
     const saveCertifications = () => {
-        const formattedCertifications = certifications.map((cert) => ({
-            ...cert,
-            issueDate:
-                cert.issueDate && isValidDate(cert.issueDate)
-                    ? format(cert.issueDate, "dd/MM/yyyy")
-                    : "",
-            expiryDate:
-                cert.expiryDate && isValidDate(cert.expiryDate)
-                    ? format(cert.expiryDate, "dd/MM/yyyy")
-                    : "",
+        const formattedCertifications = certifications.map(cert => ({
+            name: cert.title,
+            issuer: cert.organization,
+            year: cert.issueDate ? format(cert.issueDate, "yyyy") : "",
         }))
-
         dispatch(updateCertifications(formattedCertifications))
         return formattedCertifications
     }
+
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -264,15 +261,7 @@ export default function Certifications() {
                             </Button>
                         </div>
 
-                        <div className="flex justify-end pt-6">
-                            <Button
-                                type="submit"
-                                className="bg-green-500 hover:bg-green-600 px-8 text-white font-medium"
-                            >
-                                Next
-                                <ChevronRight className="ml-2 h-4 w-4" />
-                            </Button>
-                        </div>
+                        <NextButton />
                     </form>
                 </CardContent>
             </Card>
